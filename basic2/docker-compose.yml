@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  # DB 세팅. =옆에 띄어쓰기 하지 말것!
+  mydb:
+    image: mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=1234
+      - MARIADB_DATABASE=board
+    ports:
+      - "3400:3306"
+  # spring 세팅
+  spring_test:
+    build:
+      context: ./demo
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8080"
+    # mydb가 실행될 때까지 spring_test 실행하지 말라는 의미
+    # 하지만 그럼에도 바로 실행하면 문제가 생긴다.
+    depends_on:
+      - mydb
+    restart: on-failure:10
+    # 환경 변수 주입해주는 것과 동일
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mydb:3306/board
+    volumes:
+      # 로그 파일의 이름 이름은 application.yml에서 설정한 거임=> file.name=logs/app.log
+      - /Users/sejeong/Desktop/tmp_logs:/app/logs spring_test:latest
+

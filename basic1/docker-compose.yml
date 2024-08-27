@@ -1,0 +1,15 @@
+# docker-compose의 목적:
+# 1. 여러 개의 도커 이미지를 만들어 도커 컨테이너를 동시에 생성 (만약 이미지가 이미 만들어져있다면 컨테이너 실행만 하는 것이다.)
+# 2. 도커 컨테이너 간의 통신을 용이하게 하기 위함(내부 통신 용이)
+version: '3.8' # docker-compose 파일 작성을 위한 script format 버전
+services:
+  java-app1:
+    build:
+      context: .
+      dockerfile: Dockerfile1 # 현재 경로에 없으면 경로까지 지정해줘야한다.
+    image: helloworld1:v1
+  java-app2:
+    build:
+      context: .
+      dockerfile: Dockerfile2 # 현재 경로에 없으면 경로까지 지정해줘야한다.
+    image: helloworld2:v1

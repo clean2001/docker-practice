@@ -1,0 +1,21 @@
+# 컨테이너 내에서 사용할 java 설치
+# 별다른 설정없이도 경량화 리눅스인 alphine 리눅스가 설치된다.
+FROM openjdk:11
+
+# 작업 디렉토리 설정
+WORKDIR /app
+
+# localhost의 HelloWorld1.java 파일을 컨테이너의 /app 폴더로 복사하는 작업
+COPY HelloWorld1.java /app
+
+# 도커 컨테이너 내부에서 실행되는 명령어
+RUN javac HelloWorld1.java
+
+# 마지막 실행 작업 시에는 일반적으로 배열 형식의 명령문을 사용한다.
+CMD ["java", "HelloWorld1"]
+
+# 도커 이미지(일종의 압축 파일) 생성. 아래 명령어는 외우자!!
+# docker build -t 이미지명:태그명(태그명은 일반적으로 버전명이다.) -f 도커파일경로 빌드컨텍스트위치
+# 도커파일 경로가 현재 위치이고, 파일명이 Dockerfile이면 "-f 도커파일경로" 옵션 생략 가능
+# 빌드 컨텍스트는 소스코드가 있는 위치를 의미한다.
+# docker build -t helloworld1:v1 -f ./Dockerfile1 .
